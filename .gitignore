@@ -1,0 +1,7 @@
+# Generated songs — large, regenerable. Keep curated demos in demos/ instead.
+out/
+
+# Python / uv
+__pycache__/
+*.pyc
+.venv/

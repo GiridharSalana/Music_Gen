@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Read a .mid file in human-readable form.  Usage: ./midread song.mid [--full]
+exec uv run --quiet --with mido python -c '
+import mido, sys
+m = mido.MidiFile(sys.argv[1])
+full = "--full" in sys.argv
+print(f"type={m.type}  tracks={len(m.tracks)}  ticks/beat={m.ticks_per_beat}  length={m.length:.1f}s")
+for i, t in enumerate(m.tracks):
+    print(f"--- track {i}: {t.name!r} ({len(t)} events) ---")
+    for msg in (t if full else t[:12]):
+        print("   ", msg)
+    if not full and len(t) > 12:
+        print(f"    ... (+{len(t)-12} more, use --full)")
+' "$@"
