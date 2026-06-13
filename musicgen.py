@@ -21,7 +21,8 @@ import textwrap
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_SOUNDFONTS = [
-    "/usr/share/sounds/sf2/FluidR3_GM.sf2",  # gold-standard free GM soundfont
+    os.path.expanduser("~/soundfonts/TimbresOfHeaven-4.00.sf2"),  # best free GM (~440MB)
+    "/usr/share/sounds/sf2/FluidR3_GM.sf2",  # great free GM (~140MB)
     "/usr/share/sounds/sf2/default-GM.sf2",
     "/usr/share/sounds/sf2/TimGM6mb.sf2",
     "/usr/share/soundfonts/default.sf2",
@@ -48,7 +49,10 @@ def slugify(text):
 
 
 def pick_soundfont(explicit):
+    # priority: --soundfont flag > $MUSICGEN_SOUNDFONT > built-in default list
+    explicit = explicit or os.environ.get("MUSICGEN_SOUNDFONT")
     if explicit:
+        explicit = os.path.expanduser(explicit)
         if not os.path.exists(explicit):
             die(f"soundfont not found: {explicit}")
         return explicit

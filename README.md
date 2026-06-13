@@ -42,6 +42,7 @@ If the generated script errors, the traceback is fed back to Claude for repair (
   --out DIR         output directory (default ./out/<slug>-<timestamp>)
   --model ID        claude model id (default claude-opus-4-8)
   --soundfont PATH  override the .sf2 soundfont
+                    (or set $MUSICGEN_SOUNDFONT once to pick your favorite)
   --gain G          fluidsynth gain (default 1.0)
   --retries N       LLM repair attempts on failure (default 2)
   --play            play the result when done (mpv/ffplay)
@@ -63,5 +64,7 @@ See [`demos/`](demos/) for example output.
 ## Notes & limits
 
 - The 128 General-MIDI instruments + drum kit cover most genres. MIDI **cannot** produce human vocals — that needs a neural audio model, a different paradigm.
-- Sound quality depends on the soundfont. [FluidR3_GM](https://member.keymusician.com/Member/FluidR3_GM/index.html) (~140 MB) is the recommended free one.
+- Sound quality depends almost entirely on the soundfont, not the synth. Good free options, best first:
+  **Timbres of Heaven** (~440 MB, the best free GM soundfont), **FluidR3_GM** (~140 MB), **MuseScore General** (~37 MB).
+  The tool auto-detects `~/soundfonts/TimbresOfHeaven-4.00.sf2` and falls back to FluidR3 if absent.
 - `--duration` is a hint; the LLM estimates bar counts, so final length can vary by ±30s.
